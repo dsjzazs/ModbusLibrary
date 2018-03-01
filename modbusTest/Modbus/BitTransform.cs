@@ -49,14 +49,14 @@ namespace modbusTest
         {
             var value = new Int32[length];
             for (int i = 0; i < length; i++)
-                value[i] = ToInt32(bytes, startIndex * 4);
+                value[i] = ToInt32(bytes, startIndex + i * 4);
             return value;
         }
         public static UInt32[] ToUInt32(byte[] bytes, int startIndex, int length)
         {
             var value = new UInt32[length];
             for (int i = 0; i < length; i++)
-                value[i] = ToUInt32(bytes, startIndex * 4);
+                value[i] = ToUInt32(bytes, startIndex + i * 4);
             return value;
         }
         public static Int16 ToInt16(byte[] bytes, int startIndex)
@@ -81,14 +81,14 @@ namespace modbusTest
         {
             var value = new Int16[length];
             for (int i = 0; i < length; i++)
-                value[i] = ToInt16(bytes, startIndex * 4);
+                value[i] = ToInt16(bytes, startIndex + i * 4);
             return value;
         }
         public static UInt16[] ToUInt16(byte[] bytes, int startIndex, int length)
         {
             var value = new UInt16[length];
             for (int i = 0; i < length; i++)
-                value[i] = ToUInt16(bytes, startIndex * 4);
+                value[i] = ToUInt16(bytes, startIndex + i * 4);
             return value;
         }
 
