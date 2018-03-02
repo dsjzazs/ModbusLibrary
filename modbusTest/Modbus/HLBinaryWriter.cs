@@ -41,10 +41,10 @@ namespace modbusTest
         public unsafe void Write(float value)
         {
             uint TmpValue = *(uint*)&value;
-            _buffer[0] = (byte)TmpValue;
-            _buffer[1] = (byte)(TmpValue >> 8);
-            _buffer[2] = (byte)(TmpValue >> 16);
-            _buffer[3] = (byte)(TmpValue >> 24);
+            _buffer[1] = (byte)TmpValue;
+            _buffer[0] = (byte)(TmpValue >> 8);
+            _buffer[3] = (byte)(TmpValue >> 16);
+            _buffer[2] = (byte)(TmpValue >> 24);
             OutStream.Write(_buffer, 0, 4);
         }
         public void Write(ulong value)

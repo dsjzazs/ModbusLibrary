@@ -55,16 +55,15 @@
             this.label11 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -336,6 +335,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "WriteCoils 写入多个线圈";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(83, 35);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(48, 16);
+            this.checkBox2.TabIndex = 10;
+            this.checkBox2.Text = "启用";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(137, 20);
@@ -363,20 +372,9 @@
             this.textBox7.TabIndex = 4;
             this.textBox7.Text = "0";
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(83, 35);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(48, 16);
-            this.checkBox2.TabIndex = 10;
-            this.checkBox2.Text = "启用";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.label10);
-            this.groupBox6.Controls.Add(this.textBox11);
+            this.groupBox6.Controls.Add(this.button7);
             this.groupBox6.Controls.Add(this.button6);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.textBox10);
@@ -387,9 +385,19 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "WriteCoils 写入多个寄存器";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(164, 20);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(64, 34);
+            this.button7.TabIndex = 11;
+            this.button7.Text = "自定义类型发送";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(137, 20);
+            this.button6.Location = new System.Drawing.Point(83, 20);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(79, 34);
             this.button6.TabIndex = 8;
@@ -413,23 +421,6 @@
             this.textBox10.Size = new System.Drawing.Size(53, 21);
             this.textBox10.TabIndex = 4;
             this.textBox10.Text = "0";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(76, 18);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(29, 12);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "地址";
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(78, 33);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(53, 21);
-            this.textBox11.TabIndex = 9;
-            this.textBox11.Text = "10";
             // 
             // Form1
             // 
@@ -502,8 +493,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button7;
     }
 }
 

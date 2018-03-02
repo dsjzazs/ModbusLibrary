@@ -9,18 +9,15 @@ namespace modbusTest
 {
     public abstract class Modbus
     {
-        public WriteRegistersResponse WriteRegisters(byte slave, ushort address, ushort[] Data) { return WriteRegisters(slave, address, Data, out ErrorResponse error); }
-        public WriteRegistersResponse WriteRegisters(byte slave, ushort address, ushort[] Data, out ErrorResponse error)
+        public WriteRegistersResponse WriteRegister(WriteRegistersRequest request)
         {
-            var request = new WriteRegistersRequest
-            {
-                SlaveAddress = slave,
-                Address = address,
-                Data = Data
-            };
+            return this.WriteRegister(request, out ErrorResponse error);
+        }
+        public WriteRegistersResponse WriteRegister(WriteRegistersRequest request, out ErrorResponse error)
+        {
             return this.Request<WriteRegistersResponse>(request, out error);
         }
-        public WriteCoilResponse WriteCoil(byte slave, ushort address, bool Status) { return WriteCoil(slave, address, Status,out  ErrorResponse error); }
+        public WriteCoilResponse WriteCoil(byte slave, ushort address, bool Status) { return WriteCoil(slave, address, Status, out ErrorResponse error); }
         public WriteCoilResponse WriteCoil(byte slave, ushort address, bool Status, out ErrorResponse error)
         {
             var request = new WriteCoilRequest
@@ -77,6 +74,7 @@ namespace modbusTest
             };
             return this.Request<ReadCoilsResponse>(request, out error);
         }
+        public T Request<T>(RequestBase obj) where T : ResponseBase, new() { return this.Request<T>(obj, out ErrorResponse error); }
         public abstract T Request<T>(RequestBase obj, out ErrorResponse errorResponse) where T : ResponseBase, new();
     }
 }

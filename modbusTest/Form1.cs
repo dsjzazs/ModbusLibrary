@@ -88,23 +88,67 @@ namespace modbusTest
 
         private void button6_Click(object sender, EventArgs e)
         {
+            //简单的无类型写入
+
             var slave = Convert.ToByte(textBox1.Text);
             var address = Convert.ToUInt16(textBox10.Text);
-            var length = Convert.ToUInt16(textBox11.Text);
-            var data = new ushort[length];
+            ushort length = 10;
             var random = new Random();
+
+            var req = new WriteRegistersRequest() { SlaveAddress = slave, Address = address };
             for (int i = 0; i < length; i++)
-                data[i] = (ushort)random.Next(ushort.MinValue, ushort.MaxValue);
-            var res = modbus.WriteRegisters(slave, address, data);
-            if (res.Length != length)
+                req.Data.Write((ushort)random.Next(ushort.MinValue, ushort.MaxValue));
+
+            var res = modbus.Request<WriteRegistersResponse>(req);
+            if (res?.Length != length)
             {
                 textBox5.Text = "写入失败!";
                 return;
             }
             var res2 = modbus.ReadRegister(slave, address, length);
             textBox5.Text = res2.Data.ToArray().ToHexString();
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var slave = Convert.ToByte(textBox1.Text);
+            var address = Convert.ToUInt16(textBox10.Text);
+
+            var config = new configParameter()
+            {
+                PN = 12345,
+                Speed = 50000,
+                Temperature = 99.71f
+            };
+            var req = new WriteRegistersRequest()
+            {
+                SlaveAddress = slave,
+                Address = address,
+            };
+            req.Data.Write(config.Temperature);
+            req.Data.Write(config.PN);
+            req.Data.Write(config.Speed);
+
+            ushort length = 10;
+            var res = modbus.WriteRegister(req);
+
+            if (res == null)
+            {
+                textBox5.Text = "写入失败!";
+                return;
+            }
+            var res2 = modbus.ReadRegister(slave, address, length);
+            textBox5.Text = $"温度:{res2.Data.ReadSingle()}  产品编号:{res2.Data.ReadUInt16()}  速度:{res2.Data.ReadUInt32()}\r\n{res2.Data.ToArray().ToHexString()}";
         }
     }
+    public class configParameter
+    {
+        public uint Speed { get; set; }
+        public ushort PN { get; set; }
+        public float Temperature { get; set; }
+    }
+
     public class monitorState : ReadRegisterResponse
     {
         public int ID => this.Data.ReadInt32(0);
