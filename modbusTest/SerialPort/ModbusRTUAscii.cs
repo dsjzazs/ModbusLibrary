@@ -30,7 +30,7 @@ namespace modbusTest.SerialPort
             bw.Write(':');
             using (var ms = new System.IO.MemoryStream())
             {
-                var bw2 = new System.IO.BinaryWriter(ms);
+                var bw2 = new HLBinaryWriter(ms);
                 bw2.Write((byte)obj.SlaveAddress);
                 bw2.Write((byte)obj.Command);
                 obj.Serialize(bw2);

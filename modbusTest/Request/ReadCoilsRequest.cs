@@ -9,24 +9,26 @@ namespace modbusTest.Request
 {
     public class ReadCoilsRequest : RequestBase
     {
-        public  override byte Command => 0x01;
+        public override byte Command => 0x01;
         public ushort Address { get; set; }
         public ushort Length { get; set; }
-        public override void Serialize(System.IO.BinaryWriter stream)
+        public override void Serialize(HLBinaryWriter stream)
         {
-            stream.Write(BitConverter.GetBytes(this.Address).Reverse().ToArray());
-            stream.Write(BitConverter.GetBytes(this.Length).Reverse().ToArray());
+            if (Length > 0x7D0)
+                throw new ArgumentException();
+
+            stream.Write(this.Address);
+            stream.Write(this.Length);
         }
     }
     public class ReadCoilsResponse : ResponseBase
     {
         public bool[] Coils { get; private set; }
-        public byte[] Bytes { get; private set; }
-        public override void Deserialize(RequestBase request, BinaryReader stream)
+        public override void Deserialize(RequestBase request, HLBinaryReader stream)
         {
             var req = request as ReadCoilsRequest;
-            Bytes = stream.ReadBytes(stream.ReadByte());
-            this.Coils = BitTransform.ToBoolean(Bytes, req.Length);
+            var bytes = stream.ReadBytes(stream.ReadByte());
+            this.Coils = BitTransform.ToBoolean(bytes, req.Length);
         }
         public override string ToString()
         {

@@ -54,9 +54,16 @@
     </Compile>
     <Compile Include="Modbus\BitTransform.cs" />
     <Compile Include="Modbus\ErrorResponse.cs" />
+    <Compile Include="Modbus\HLBinaryReader.cs" />
+    <Compile Include="Modbus\HLBinaryWriter.cs" />
     <Compile Include="Modbus\Modbus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\ReadInputRegisterRequest.cs" />
+    <Compile Include="Request\WriteCoilRequest.cs" />
+    <Compile Include="Request\WriteCoilsRequest.cs" />
+    <Compile Include="Request\WriteRegisterRequest.cs" />
+    <Compile Include="Request\WriteRegistersRequest.cs" />
     <Compile Include="SerialPort\ModbusRTUAscii.cs" />
     <Compile Include="SerialPort\ModbusRTUBase.cs" />
     <Compile Include="SerialPort\ModbusRTUbytes.cs" />

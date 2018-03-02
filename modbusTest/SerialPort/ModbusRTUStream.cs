@@ -24,26 +24,34 @@ namespace modbusTest.SerialPort
         }
         public override int Read(byte[] buffer, int offset, int count)
         {
+            if (this._stream.CanRead == false)
+                throw new NotSupportedException();
+
             var len = _stream.Read(buffer, offset, count);
             Buffer.Write(buffer, offset, len);
+            Console.WriteLine($"RX : {buffer.ToHexString(offset, len)}");
             return len;
         }
         public override void Write(byte[] buffer, int offset, int count)
         {
+            if (this._stream.CanWrite == false)
+                throw new NotSupportedException();
             Buffer.Write(buffer, offset, count);
         }
         public override void Flush()
         {
             Buffer.Position = 0;
-            Buffer.CopyTo(this._stream);
+            var bytes = Buffer.ToArray();
+            Console.WriteLine($"TX : {bytes.ToHexString()}");
+            this._stream.Write(bytes, 0, bytes.Length);
         }
-        public override bool CanRead => true;
+        public override bool CanRead => this._stream.CanRead;
         public override bool CanSeek => false;
-        public override bool CanWrite => true;
-        public override long Length => throw new NotImplementedException();
-        public override long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override long Seek(long offset, SeekOrigin origin) => throw new NotImplementedException();
-        public override void SetLength(long value) => throw new NotImplementedException();
+        public override bool CanWrite => this._stream.CanWrite;
+        public override long Length => throw new NotSupportedException();
+        public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
         protected override void Dispose(bool disposing)
         {
             this.Buffer.Dispose();

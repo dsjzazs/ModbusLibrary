@@ -13,13 +13,13 @@ namespace modbusTest.SerialPort
         protected override void Write(RequestBase obj)
         {
             var buffer = new ModbusRTUBuffer(serialPort.BaseStream);
-            var bw = new System.IO.BinaryWriter(buffer);
+            var bw = new HLBinaryWriter(buffer);
             bw.Write((byte)obj.SlaveAddress);
             bw.Write((byte)obj.Command);
             obj.Serialize(bw);
-            var writeCRC = buffer.ToArray();
-            var crcBytes = CalculateCRC(writeCRC, writeCRC.Length);
-            bw.Write(crcBytes);
+            var bytes = buffer.ToArray();
+            var crcBytes = CalculateCRC(bytes, bytes.Length);
+            bw.WriteBytes(crcBytes);
             buffer.Flush();
         }
         protected override T Read<T>(RequestBase obj, out ErrorResponse errorResponse)
@@ -27,7 +27,7 @@ namespace modbusTest.SerialPort
             T res = new T();
             errorResponse = null;
             var buffer = new ModbusRTUBuffer(serialPort.BaseStream);
-            var br = new System.IO.BinaryReader(buffer);
+            var br = new HLBinaryReader(buffer);
             res.SlaveAddress = br.ReadByte();
             var command = br.ReadByte();
             var crc = new byte[2];
@@ -37,17 +37,21 @@ namespace modbusTest.SerialPort
                 res.Deserialize(obj, br);
                 br.Read(crc, 0, crc.Length);
                 var bytes = buffer.ToArray();
-                var checkCRC = CalculateCRC(bytes, bytes.Length - 2);
-                if (BitConverter.ToUInt16(crc, 0) != BitConverter.ToUInt16(checkCRC, 0))
+                var crc2 = CalculateCRC(bytes, bytes.Length - 2);
+                if (BitConverter.ToUInt16(crc, 0) != BitConverter.ToUInt16(crc2, 0))
                     throw new CRCException();
                 return res;
             }
-            else if (command >= 0x80)
+            else if (command == 0x80 + obj.Command)
             {
                 errorResponse = new ErrorResponse(br.ReadByte());
                 Console.WriteLine($"错误 : {errorResponse.Titile }");
                 Console.WriteLine($"详情 : {errorResponse.Content}");
                 br.Read(crc, 0, crc.Length);
+                var bytes = buffer.ToArray();
+                var crc2 = CalculateCRC(bytes, bytes.Length - 2);
+                if (BitConverter.ToUInt16(crc, 0) != BitConverter.ToUInt16(crc2, 0))
+                    throw new CRCException();
                 return null;
             }
             else

@@ -6,9 +6,9 @@ using System.Text;
 
 namespace modbusTest.Request
 {
-    public class ReadRegisterRequest : RequestBase
+    public class ReadInputRegisterRequest : RequestBase
     {
-        public override byte Command => 0x03;
+        public override byte Command => 0x04;
         public ushort Address { get; set; }
         public ushort Length { get; set; }
         public override void Serialize(HLBinaryWriter stream)
@@ -20,7 +20,7 @@ namespace modbusTest.Request
             stream.Write(this.Length);
         }
     }
-    public class ReadRegisterResponse : ResponseBase
+    public class ReadInputRegisterResponse : ResponseBase
     {
         public HLBinaryReader Data { get; private set; }
         public override void Deserialize(RequestBase request, HLBinaryReader stream)

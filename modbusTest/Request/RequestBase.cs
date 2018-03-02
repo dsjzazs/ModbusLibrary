@@ -23,7 +23,7 @@ namespace modbusTest.Request
         /// 序列化 - 向流写入数据 (站号、功能码会在此之前自动写入,CRC校验会在此之后自动写入)
         /// </summary>
         /// <param name="stream"></param>
-        public abstract void Serialize(System.IO.BinaryWriter stream);
+        public abstract void Serialize(HLBinaryWriter stream);
     }
     /// <summary>
     /// Modbus响应基类
@@ -39,6 +39,6 @@ namespace modbusTest.Request
         /// </summary>
         /// <param name="request"></param>
         /// <param name="stream"></param>
-        public abstract void Deserialize(RequestBase request, System.IO.BinaryReader stream);
+        public abstract void Deserialize(RequestBase request, HLBinaryReader stream);
     }
 }
