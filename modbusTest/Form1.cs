@@ -8,7 +8,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace modbusTest
@@ -131,15 +130,16 @@ namespace modbusTest
             req.Data.Write(config.Speed);
 
             ushort length = 10;
-            var res = modbus.WriteRegister(req);
+            var res = modbus.WriteRegister(req, out ErrorResponse error);
 
             if (res == null)
             {
-                textBox5.Text = "写入失败!";
+                if (error != null)
+                    textBox5.Text = $"写入失败 : {error.Titile}\r\n{error.Content}";
                 return;
             }
             var res2 = modbus.ReadRegister(slave, address, length);
-            textBox5.Text = $"温度:{res2.Data.ReadSingle()}  产品编号:{res2.Data.ReadUInt16()}  速度:{res2.Data.ReadUInt32()}\r\n{res2.Data.ToArray().ToHexString()}";
+            textBox5.Text = $"温度:{res2.Data.ReadSingle(0)}  产品编号:{res2.Data.ReadUInt16(4)}  速度:{res2.Data.ReadUInt32(6)}\r\n{res2.Data.ToArray().ToHexString()}";
         }
     }
     public class configParameter
