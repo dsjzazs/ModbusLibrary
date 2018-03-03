@@ -1,4 +1,4 @@
-﻿namespace modbusTest
+﻿namespace ModbusLibrary
 {
     partial class Form1
     {

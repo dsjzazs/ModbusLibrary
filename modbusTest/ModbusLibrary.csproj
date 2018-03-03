@@ -32,6 +32,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,7 +69,7 @@
     <Compile Include="Request\WriteRegistersRequest.cs" />
     <Compile Include="SerialPort\ModbusRTUAscii.cs" />
     <Compile Include="SerialPort\ModbusRTUBase.cs" />
-    <Compile Include="SerialPort\ModbusRTUbytes.cs" />
+    <Compile Include="SerialPort\ModbusRTU.cs" />
     <Compile Include="SerialPort\ModbusRTUStream.cs" />
     <Compile Include="Request\ReadCoilsRequest.cs" />
     <Compile Include="Request\ReadRegister.cs" />

@@ -1,10 +1,10 @@
-﻿using modbusTest.Request;
+﻿using ModbusLibrary.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest.SerialPort
+namespace ModbusLibrary.SerialPort
 {
     public class ModbusRTUAscii : ModbusRTUBase
     {

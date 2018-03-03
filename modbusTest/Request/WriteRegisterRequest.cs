@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest.Request
+namespace ModbusLibrary.Request
 {
     public class WriteRegisterRequest : RequestBase
     {

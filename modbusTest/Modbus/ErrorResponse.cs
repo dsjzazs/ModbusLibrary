@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest
+namespace ModbusLibrary
 {
-    public class ErrorResponse
+    public class ErrorResponse : System.EventArgs
     {
         public ErrorResponse(byte code)
         {

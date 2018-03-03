@@ -1,14 +1,14 @@
-﻿using modbusTest.Request;
+﻿using ModbusLibrary.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest.SerialPort
+namespace ModbusLibrary.SerialPort
 {
-    public class ModbusRTUbytes : ModbusRTUBase
+    public class ModbusRTU : ModbusRTUBase
     {
-        public ModbusRTUbytes(System.IO.Ports.SerialPort sp) : base(sp) { }
+        public ModbusRTU(System.IO.Ports.SerialPort sp) : base(sp) { }
         protected override void Write(RequestBase obj)
         {
             var buffer = new ModbusRTUBuffer(serialPort.BaseStream);

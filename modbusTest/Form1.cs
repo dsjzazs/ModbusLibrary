@@ -1,5 +1,5 @@
-﻿using modbusTest.Request;
-using modbusTest.SerialPort;
+﻿using ModbusLibrary.Request;
+using ModbusLibrary.SerialPort;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace modbusTest
+namespace ModbusLibrary
 {
     public partial class Form1 : Form
     {
@@ -49,7 +49,7 @@ namespace modbusTest
             sp.DataBits = 8;
             sp.StopBits = System.IO.Ports.StopBits.One;
             sp.ReadTimeout = 100;
-            modbus = new ModbusRTUbytes(sp);
+            modbus = new ModbusRTU(sp);
         }
 
         private void button3_Click(object sender, EventArgs e)

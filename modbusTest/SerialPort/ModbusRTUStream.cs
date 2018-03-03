@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest.SerialPort
+namespace ModbusLibrary.SerialPort
 {
     /// <summary>
     /// RTU缓冲流

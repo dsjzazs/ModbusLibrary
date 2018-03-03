@@ -1,13 +1,14 @@
-﻿using modbusTest.Request;
+﻿using ModbusLibrary.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest
+namespace ModbusLibrary
 {
     public abstract class Modbus
     {
+        public event EventHandler<ErrorResponse> ErrorEvent;
         public WriteRegistersResponse WriteRegister(WriteRegistersRequest request)
         {
             return this.WriteRegister(request, out ErrorResponse error);
@@ -73,7 +74,13 @@ namespace modbusTest
             };
             return this.Request<ReadCoilsResponse>(request, out error);
         }
-        public T Request<T>(RequestBase obj) where T : ResponseBase, new() { return this.Request<T>(obj, out ErrorResponse error); }
+        public T Request<T>(RequestBase obj) where T : ResponseBase, new()
+        {
+            var res = this.Request<T>(obj, out ErrorResponse error);
+            if (res == null && error != null)
+                ErrorEvent?.Invoke(obj, error);
+            return res;
+        }
         public abstract T Request<T>(RequestBase obj, out ErrorResponse errorResponse) where T : ResponseBase, new();
     }
 }

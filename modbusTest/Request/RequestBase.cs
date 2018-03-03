@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest.Request
+namespace ModbusLibrary.Request
 {
     /// <summary>
     /// Modbus请求基类

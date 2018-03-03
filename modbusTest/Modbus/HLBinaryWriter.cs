@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace modbusTest
+namespace ModbusLibrary
 {
     public class HLBinaryWriter : System.IO.Stream
     {
