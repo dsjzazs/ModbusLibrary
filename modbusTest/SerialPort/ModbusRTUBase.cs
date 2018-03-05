@@ -9,9 +9,11 @@ namespace ModbusLibrary.SerialPort
     public abstract class ModbusRTUBase : Modbus
     {
         public short MaxError { get; set; } = 5;
+        private object lockObject = new object();
         protected System.IO.Ports.SerialPort serialPort = new System.IO.Ports.SerialPort();
         public ModbusRTUBase(System.IO.Ports.SerialPort sp)
         {
+  
             this.serialPort = sp;
             if (this.serialPort.IsOpen == false)
                 this.serialPort.Open();
@@ -23,12 +25,21 @@ namespace ModbusLibrary.SerialPort
             short error = 0;
             while (true)
             {
-                serialPort.DiscardOutBuffer();
-                serialPort.DiscardInBuffer();
                 try
                 {
-                    Write(obj);
-                    return this.Read<T>(obj, out errorResponse);
+                    lock (lockObject)
+                    {
+                        serialPort.DiscardOutBuffer();
+                        serialPort.DiscardInBuffer();
+                        Write(obj);
+                        if (obj.SlaveAddress > 0)
+                            return this.Read<T>(obj, out errorResponse);
+                        else
+                        {
+                            errorResponse = null;
+                            return null;
+                        }
+                    }
                 }
                 catch (TimeoutException ex)
                 {
