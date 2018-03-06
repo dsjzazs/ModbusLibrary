@@ -7,6 +7,8 @@ namespace ModbusLibrary.Request
 {
     public class WriteRegisterRequest : RequestBase
     {
+        public WriteRegisterRequest() { }
+        public WriteRegisterRequest(byte slaveAddress, ushort address) { this.SlaveAddress = slaveAddress; this.Address = address; }
         public override byte Command => 0x06;
         public ushort Address { get; set; }
         public ushort Value { get; set; }
