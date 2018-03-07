@@ -43,60 +43,50 @@ namespace ModbusLibrary
         {
             return (byte)OutStream.ReadByte();
         }
-        protected virtual byte[] FillBuffer(int numBytes)
+  
+        /// <summary>
+        /// 从基础流读取
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public byte[] ReadBytes(int numBytes, int setPosition)
+        {
+            this.Position = setPosition;
+            return ReadBytes(numBytes);
+        }
+        /// <summary>
+        /// 从基础流读取
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public byte[] ReadBytes(int numBytes)
         {
             var buffer = new byte[numBytes];
-
             int bytesRead = 0;
             int n = 0;
             if (OutStream == null)
                 throw new ArgumentNullException(nameof(OutStream));
-
-            do
+            if (this.ReadTimeout > 0)
             {
-                n = OutStream.Read(buffer, bytesRead, numBytes - bytesRead);
-                if (n == 0)
-                    throw new EndOfStreamException();
-                bytesRead += n;
-            } while (bytesRead < numBytes);
-            return buffer;
-        }
-        /// <summary>
-        /// 从基础流读取,Bytes将始终保持不变
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        public byte[] ReadBytes(int count, int setPosition)
-        {
-            this.Position = setPosition;
-            return ReadBytes(count);
-        }
-        /// <summary>
-        /// 从基础流读取,Bytes将始终保持不变
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        public byte[] ReadBytes(int count)
-        {
-            if (count == 0)
-                return null;
-            byte[] result = new byte[count];
-            int numRead = 0;
-            do
-            {
-                int n = OutStream.Read(result, numRead, count);
-                if (n == 0)
-                    break;
-                numRead += n;
-                count -= n;
-            } while (count > 0);
-            if (numRead != result.Length)
-            {
-                byte[] copy = new byte[numRead];
-                Array.Copy(result, 0, copy, 0, numRead);
-                result = copy;
+                var timeout = this.ReadTimeout + System.Environment.TickCount;
+                do
+                {
+                    n = OutStream.Read(buffer, bytesRead, numBytes - bytesRead);
+                    bytesRead += n;
+                    if (System.Environment.TickCount > timeout)
+                        throw new TimeoutException();
+                } while (bytesRead < numBytes);
             }
-            return result;
+            else
+            {
+                do
+                {
+                    n = OutStream.Read(buffer, bytesRead, numBytes - bytesRead);
+                    bytesRead += n;
+                } while (bytesRead < numBytes);
+            }
+
+            return buffer;
         }
         public double ReadDouble(int setPosition)
         {
@@ -105,7 +95,7 @@ namespace ModbusLibrary
         }
         public double ReadDouble()
         {
-            var bytes = FillBuffer(8);
+            var bytes = ReadBytes(8);
             return BitConverter.ToDouble(new byte[]
             {   bytes[1],
                 bytes[0],
@@ -123,7 +113,7 @@ namespace ModbusLibrary
         }
         public short ReadInt16()
         {
-            var bytes = FillBuffer(2);
+            var bytes = ReadBytes(2);
             return BitConverter.ToInt16(new byte[]
             {   bytes[1],
                 bytes[0]}, 0);
@@ -135,7 +125,7 @@ namespace ModbusLibrary
         }
         public int ReadInt32()
         {
-            var bytes = FillBuffer(4);
+            var bytes = ReadBytes(4);
             return BitConverter.ToInt32(new byte[]
             {   bytes[1],
                 bytes[0],
@@ -149,7 +139,7 @@ namespace ModbusLibrary
         }
         public long ReadInt64()
         {
-            var bytes = FillBuffer(8);
+            var bytes = ReadBytes(8);
             return BitConverter.ToInt64(new byte[]
             {   bytes[1],
                 bytes[0],
@@ -167,7 +157,7 @@ namespace ModbusLibrary
         }
         public sbyte ReadSByte()
         {
-            return (sbyte)FillBuffer(1)[0];
+            return (sbyte)ReadBytes(1)[0];
         }
         public float ReadSingle(int setPosition)
         {
@@ -176,7 +166,7 @@ namespace ModbusLibrary
         }
         public float ReadSingle()
         {
-            var bytes = FillBuffer(4);
+            var bytes = ReadBytes(4);
             return BitConverter.ToSingle(new byte[]
             {   bytes[1],
                 bytes[0],
@@ -190,7 +180,7 @@ namespace ModbusLibrary
         }
         public ushort ReadUInt16()
         {
-            var bytes = FillBuffer(2);
+            var bytes = ReadBytes(2);
             return BitConverter.ToUInt16(new byte[]
             {   bytes[1],
                 bytes[0]}, 0);
@@ -202,7 +192,7 @@ namespace ModbusLibrary
         }
         public uint ReadUInt32()
         {
-            var bytes = FillBuffer(4);
+            var bytes = ReadBytes(4);
             return BitConverter.ToUInt32(new byte[]
             {   bytes[1],
                 bytes[0],
@@ -216,7 +206,7 @@ namespace ModbusLibrary
         }
         public ulong ReadUInt64()
         {
-            var bytes = FillBuffer(8);
+            var bytes = ReadBytes(8);
             return BitConverter.ToUInt64(new byte[]
             {   bytes[1],
                 bytes[0],
