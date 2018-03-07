@@ -21,6 +21,7 @@ namespace ModbusLibrary
         public override void Flush() => OutStream.Flush();
         public override int Read(byte[] buffer, int offset, int count) => OutStream.Read(buffer, offset, count);
         public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        public override int ReadTimeout { get; set; }
         public HLBinaryReader(byte[] bytes)
         {
             OutStream = new System.IO.MemoryStream(bytes);
@@ -43,7 +44,7 @@ namespace ModbusLibrary
         {
             return (byte)OutStream.ReadByte();
         }
-  
+
         /// <summary>
         /// 从基础流读取
         /// </summary>

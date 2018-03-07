@@ -29,12 +29,12 @@ namespace ModbusLibrary.SerialPort
             var br = new HLBinaryReader(buffer);
             res.SlaveAddress = br.ReadByte();
             var command = br.ReadByte();
-            var crc = new byte[2];
+            byte[] crc;
 
             if (command == obj.Command)
             {
                 res.Deserialize(obj, br);
-                br.Read(crc, 0, crc.Length);
+                crc = br.ReadBytes(2);
                 var bytes = buffer.ToArray();
                 var crc2 = CalculateCRC(bytes, bytes.Length - 2);
                 if (BitConverter.ToUInt16(crc, 0) != BitConverter.ToUInt16(crc2, 0))
@@ -46,7 +46,7 @@ namespace ModbusLibrary.SerialPort
                 errorResponse = new ErrorResponse(br.ReadByte());
                 Console.WriteLine($"错误 : {errorResponse.Titile }");
                 Console.WriteLine($"详情 : {errorResponse.Content}");
-                br.Read(crc, 0, crc.Length);
+                crc = br.ReadBytes(2);
                 var bytes = buffer.ToArray();
                 var crc2 = CalculateCRC(bytes, bytes.Length - 2);
                 if (BitConverter.ToUInt16(crc, 0) != BitConverter.ToUInt16(crc2, 0))

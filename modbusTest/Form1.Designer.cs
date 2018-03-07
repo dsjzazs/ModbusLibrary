@@ -64,6 +64,8 @@
             this.button6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -324,6 +326,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.textBox11);
             this.groupBox5.Controls.Add(this.checkBox2);
             this.groupBox5.Controls.Add(this.button5);
             this.groupBox5.Controls.Add(this.label6);
@@ -338,7 +342,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(83, 35);
+            this.checkBox2.Location = new System.Drawing.Point(137, 35);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(48, 16);
             this.checkBox2.TabIndex = 10;
@@ -347,7 +351,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(137, 20);
+            this.button5.Location = new System.Drawing.Point(191, 20);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(79, 34);
             this.button5.TabIndex = 8;
@@ -422,6 +426,23 @@
             this.textBox10.TabIndex = 4;
             this.textBox10.Text = "0";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(75, 18);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 12);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "数量";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(77, 33);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(53, 21);
+            this.textBox11.TabIndex = 11;
+            this.textBox11.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -494,6 +515,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox11;
     }
 }
 

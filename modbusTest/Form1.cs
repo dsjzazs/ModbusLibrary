@@ -78,8 +78,12 @@ namespace ModbusLibrary
         {
             var slave = Convert.ToByte(textBox1.Text);
             var address = Convert.ToUInt16(textBox7.Text);
+            var length = Convert.ToUInt16(textBox11.Text);
             var b = checkBox2.Checked;
-            var res = modbus.WriteCoils(slave, address, new bool[] { b, b, b, b, b });
+            bool[] values = new bool[length];
+            for (int i = 0; i < length; i++)
+                values[i] = b;
+            var res = modbus.WriteCoils(slave, address, values);
             if (res == null)
                 return;
             textBox5.Text = res.ToString();
